@@ -1,0 +1,276 @@
+# Code Description of Registration Page of XYZ Company
+
+#Total no. of file Created ;
+  1.Index.html   // Homepage of website or frontend of Registraton page
+  2.userdata.php // In this file we are handling the validation and storing of user record on Sql database.
+  3.connection.php // In this file, Include the connection configuration of sqldatabase.
+  4.users.php // Login page of website ,once the user is Register their account and it redirect to login page.
+  5.logindata.php // in this file, we are backend of Loginpage .
+
+#1.index.php
+
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrataionform</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"          // bootstrap cdn to include the bootstrap functionality.
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">                               //navbar class to include the header or navbar on top of site.  
+      <a class="navbar-brand" style="color:azure;" href="index.html">XYS Company</a>
+      
+    </nav>
+
+    <div class="container">                                                                  //container class of bootstrap which gives a container of 1140px(min width)*612px
+      <div class="row">                                                                     // It basically the grid system. which include row then column and we have to cloose the column dimension basis of our requirements.
+          <div class="col-md-6 offset-md-3">mn
+              <div class="signup-form">
+                  <form action="usersdata.php" method="POST" class="mt-5 border p-4 bg-light shadow">  // In form action element. I have specify the file name called "usersdata.php" and method = POST. After the user click on submit button it will redirect to userdata.php 
+                      <h4 class="mb-5 " style="color:azure;">Register Your Account</h4>
+                      <div class="row">
+                          <div class="mb-3 col-md-6">
+                              <label>First Name<span class="text-danger">*</span></label>                            // label for first name and input type= text and name="fname" to access the fname in userdata.php.
+                              <input type="text" name="fname" class="form-control" placeholder="Enter First Name"> 
+                          </div>
+  
+                          <div class="mb-3 col-md-6">
+                              <label>Last Name<span class="text-danger">*</span></label>
+                              <input type="text" name="Lname" class="form-control" placeholder="Enter Last Name">   // label for last name and input type= text and name="Lname" to access the Lname in userdata.php.
+                          </div>
+  
+                          <div class="mb-3 col-md-12">
+                            <label>Email ID<span class="text-danger">*</span></label>
+                            <input type="text" name="Lname" class="form-control" placeholder="Enter Email ID">       // label for email and input type= text and name="email" to access the email in userdata.php.
+                        </div>
+                          <div class="mb-3 col-md-12">
+                              <label>Password<span class="text-danger">*</span></label>
+                              <input type="password" name="password" class="form-control" placeholder="Enter Password">   // label for password and input type= password and name="password" to access the password in userdata.php.
+                          </div>
+                          <div class="mb-3 col-md-12">
+                              <label>Confirm Password<span class="text-danger">*</span></label>
+                              <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password"> // label for confirm password and input type= text and name="confirm password" to access the confirm in userdata.php.
+                          </div>
+                          <div class="col-md-12">
+                            <button type="submit" name="Submit"class="btn btn-primary">Submit</button>                 //submit button after filling all details user click on it.
+                          </div>
+                      </div>
+                  </form>
+                  <p class="text-center mt-3 text-secondary">If you have account, Please <a href="users.html">Login Now</a></p> // if user already registered it will login their account
+              </div>
+          </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bootstrap cdn -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+
+   
+ 
+  </body>
+</html>
+
+2.userdata.php
+
+<?php
+   include("connection.php");                        // I include the connection.php file and to use the $conn variable .
+
+	$firstname=$_POST['fname'];                 // I getting the first name, lastname, and email etc. of user by using $_POST method.
+    $lastname=$_POST['Lname'];                      
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $confirmpassword = $_POST['confirmpassword'];
+
+	if($firstname!="" && $lastname!="" && $email!="" && $password!="" && $confirmpassword!="")   //we check validation of parameters that  no field is empty.
+	{
+	$query="INSERT INTO userinfo1 VALUES (NULL,'$firstname','$lastname','$email','$password','$confirmpassword')";  //if validtion true and then we enter the values in database.
+	$data=mysqli_query($conn,$query);                  //we execute the Query of insert into database.
+	  if($data)                                               // if successed
+	  {
+            echo"<script>alert('Registration Successful');</script>" ;       //alert message is shown    
+	    	header('location:Login.php');                                //redirect to login page.
+      }
+	   else
+	  {
+        echo"<script>alert('Inserted failed');</script>" ;   //if failed inseration then it will show Insert failed .
+	    	
+      }	
+	}	
+     else 
+    {
+	  echo"<script>alert('All Fields Are Required');</script>" ;  //all fields is shown
+    }
+ 
+?>
+
+ 3.connection.php // In this file, Include the connection configuration of sqldatabase.
+
+<?php
+$servername="localhost";        .
+$username="root";               i
+$password="root";
+$dbname="registrationdata";
+$conn=mysqli_connect($servername,$username,$password,$dbname); //using this we connect to sql database.
+
+?>
+
+4.users.php // Login page of website ,once the user is Register their account and it redirect to login page.
+
+<!DOCTYPE html>                                                                    //all are same as in the homepage or index.
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+    <style>
+      body {
+        background-color: rgba(150, 150, 253, 0.164);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- new naav -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="index.html">XYZ Company</a>
+     
+    </nav>
+    <div class="container">                                                 // I have made the login page using Grid System.
+      <div class="row">
+          <div class="col-md-6 offset-md-3">
+              <div class="signup-form">
+                  <form action="logindata.php" method=POST class="mt-5 border p-4 bg-light shadow">  // In the action element of form ,I have specified "logindata.php" ann using POST method to hidethe pararmeter in the URL .
+                      <h4 class="mb-5 " style="color:azure;">LOGIN NOW</h4>
+                      <div class="row">
+                          <div class="mb-3 col-md-12">
+                            <label>Email ID<span class="text-danger">*</span></label>
+                            <input type="text" name="email" class="form-control" placeholder="Enter Email ID">  // access the email of user using this line
+                        </div>
+                          <div class="mb-3 col-md-12">
+                              <label>Password<span class="text-danger">*</span></label>
+                              <input type="password" name="password" class="form-control" placeholder="Enter Password"> // access the password of user using this is line.
+                          </div>
+                          <div class="col-md-12">
+                             <button class="btn btn-primary float-end">Login Now</button> After the user click on this button then it redirect the file which is spcified in action tag of form.
+                          </div>
+                      </div>
+                  </form>
+                  <p class="text-center mt-3 text-secondary">Forget password ? <a href="#">click here</a></p>   // if user forget the password then it will click here to recover the password.
+              </div>
+          </div>
+      </div>
+        </div>
+      </div>
+    </div>
+    <!-- end new naav -->
+    
+
+    <!-- boot strap -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    >
+  </script>
+  </body>
+</html>
+
+ 5.logindata.php // in this file, we are backend of Loginpage .
+
+
+<?php 
+    session_start();                                  // start the session for particular user. 
+
+        include("connection.php");                    // include the connection.php file to access $conn  .
+
+
+        if($_SERVER['REQUEST_METHOD'] == "POST")      // Request the server to use POST method to fetch the values of email and password.
+        {
+            //something was posted
+            $user_email = $_POST['email'];            // get email of user which is enter in email field of login page .
+            $password = $_POST['password'];           // get password of password which is eter in password field of login page 
+
+            if(!empty($user_email) && !empty($password) && !is_numeric($user_email))  // Verfy that the values is not empty and password.
+            {
+                     
+                //read from database
+                $query = "select * from userinfo1 where email = '$user_email' limit 1"; // select the record of particular user using emailid .
+                $result = mysqli_query($conn, $query);        // exceute the Query of Select to get the particular user record.
+
+                
+                if($result)                                             // if result is successed.
+                {
+    
+                    if($result && mysqli_num_rows($result) > 0)          // check that results value is greter than 0
+                    {
+                       
+                        $user_data = mysqli_fetch_assoc($result);       // get the user record as Associative array.
+                        
+                          
+                           if($user_data['password'] === $password)     // check the password of user.
+                              {
+                                  
+                                    $_SESSION['user_id'] = $user_data['user_id'];       //store the session id of particular user .
+                                    header("Location: index.html");                     //redirect the main page of page.
+                                    die;
+                                }
+                    }
+                }
+            else{
+                echo "<script>alert('wrong email or password!')";   // if email and passoword is wrong then it shows pop alert box.
+                }
+            }
+            else
+            {
+             echo "<script>alert('please enter the valid username and password')";  // if user is enter the invalid emailid and password.
+             }
+        }    
+?>
+
+
+
+
